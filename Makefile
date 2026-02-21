@@ -157,7 +157,7 @@ monitor:
 # Добавление новой ноды
 add-node:
 	@if [ -z "$(NODE)" ]; then \
-		echo "Укажите NODE=redis-node7-prod	§§§§	:6379"; \
+		echo "Укажите NODE=redis-node7-dev:6379"; \
 		exit 1; \
 	fi
 	@echo "➕ Добавление ноды $(NODE) в кластер..."
