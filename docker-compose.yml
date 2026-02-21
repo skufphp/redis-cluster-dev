@@ -16,7 +16,7 @@ services:
                          --save 900 1 60 100 30 10000
                          --tcp-keepalive 300
                          --tcp-backlog 511
-    ports: [ "7001:6379" ]
+    ports: [ "7021:6379" ]
     volumes: [ "./data/redis-node1:/data" ]
     networks: [ redis-cluster-dev ]
     restart: always
@@ -53,7 +53,7 @@ services:
                          --save 900 1 60 100 30 10000
                          --tcp-keepalive 300
                          --tcp-backlog 511
-    ports: [ "7002:6379" ]
+    ports: [ "7022:6379" ]
     volumes: [ "./data/redis-node2:/data" ]
     networks: [ redis-cluster-dev ]
     restart: always
@@ -89,7 +89,7 @@ services:
                          --save 900 1 60 100 30 10000
                          --tcp-keepalive 300
                          --tcp-backlog 511
-    ports: [ "7003:6379" ]
+    ports: [ "7023:6379" ]
     volumes: [ "./data/redis-node3:/data" ]
     networks: [ redis-cluster-dev ]
     restart: always
@@ -125,7 +125,7 @@ services:
                          --save 900 1 60 100 30 10000
                          --tcp-keepalive 300
                          --tcp-backlog 511
-    ports: [ "7004:6379" ]
+    ports: [ "7024:6379" ]
     volumes: [ "./data/redis-node4:/data" ]
     networks: [ redis-cluster-dev ]
     restart: always
@@ -161,7 +161,7 @@ services:
                          --save 900 1 60 100 30 10000
                          --tcp-keepalive 300
                          --tcp-backlog 511
-    ports: [ "7005:6379" ]
+    ports: [ "7025:6379" ]
     volumes: [ "./data/redis-node5:/data" ]
     networks: [ redis-cluster-dev ]
     restart: always
@@ -197,7 +197,7 @@ services:
                          --save 900 1 60 100 30 10000
                          --tcp-keepalive 300
                          --tcp-backlog 511
-    ports: [ "7006:6379" ]
+    ports: [ "7026:6379" ]
     volumes: [ "./data/redis-node6:/data" ]
     networks: [ redis-cluster-dev ]
     restart: always

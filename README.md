@@ -186,13 +186,12 @@ make clean-all       # Полная очистка (включая образы)
 ### 📊 Порты и подключения:
 
 ```
-redis-node1-dev  -> localhost:7001
-redis-node2-dev  -> localhost:7002
-redis-node3-dev  -> localhost:7003
-redis-node4-dev  -> localhost:7004
-redis-node5-dev  -> localhost:7005
-redis-node6-dev  -> localhost:7006
-
+redis-node1-dev  -> localhost:7021
+redis-node2-dev  -> localhost:7022
+redis-node3-dev  -> localhost:7023
+redis-node4-dev  -> localhost:7024
+redis-node5-dev  -> localhost:7025
+redis-node6-dev  -> localhost:7026
 ```
 
 ---
