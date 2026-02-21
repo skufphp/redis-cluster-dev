@@ -1,7 +1,7 @@
 services:
   redis-node1:
-    image: redis:7.2-alpine
-    container_name: redis-node1
+    image: redis:8.6-alpine
+    container_name: redis-node1-dev
     user: "999:999"
     command: >
       redis-server --cluster-enabled yes
@@ -18,7 +18,7 @@ services:
                          --tcp-backlog 511
     ports: [ "7001:6379" ]
     volumes: [ "./data/redis-node1:/data" ]
-    networks: [ redis-cluster-net ]
+    networks: [ redis-cluster-dev ]
     restart: always
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
@@ -37,8 +37,8 @@ services:
 
 
   redis-node2:
-    image: redis:7.2-alpine
-    container_name: redis-node2
+    image: redis:8.6-alpine
+    container_name: redis-node2-dev
     user: "999:999"
     command: >
       redis-server --cluster-enabled yes
@@ -55,7 +55,7 @@ services:
                          --tcp-backlog 511
     ports: [ "7002:6379" ]
     volumes: [ "./data/redis-node2:/data" ]
-    networks: [ redis-cluster-net ]
+    networks: [ redis-cluster-dev ]
     restart: always
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
@@ -73,8 +73,8 @@ services:
           cpus: '0.5'
 
   redis-node3:
-    image: redis:7.2-alpine
-    container_name: redis-node3
+    image: redis:8.6-alpine
+    container_name: redis-node3-dev
     user: "999:999"
     command: >
       redis-server --cluster-enabled yes
@@ -91,7 +91,7 @@ services:
                          --tcp-backlog 511
     ports: [ "7003:6379" ]
     volumes: [ "./data/redis-node3:/data" ]
-    networks: [ redis-cluster-net ]
+    networks: [ redis-cluster-dev ]
     restart: always
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
@@ -109,8 +109,8 @@ services:
           cpus: '0.5'
 
   redis-node4:
-    image: redis:7.2-alpine
-    container_name: redis-node4
+    image: redis:8.6-alpine
+    container_name: redis-node4-dev
     user: "999:999"
     command: >
       redis-server --cluster-enabled yes
@@ -127,7 +127,7 @@ services:
                          --tcp-backlog 511
     ports: [ "7004:6379" ]
     volumes: [ "./data/redis-node4:/data" ]
-    networks: [ redis-cluster-net ]
+    networks: [ redis-cluster-dev ]
     restart: always
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
@@ -145,8 +145,8 @@ services:
           cpus: '0.5'
 
   redis-node5:
-    image: redis:7.2-alpine
-    container_name: redis-node5
+    image: redis:8.6-alpine
+    container_name: redis-node5-dev
     user: "999:999"
     command: >
       redis-server --cluster-enabled yes
@@ -163,7 +163,7 @@ services:
                          --tcp-backlog 511
     ports: [ "7005:6379" ]
     volumes: [ "./data/redis-node5:/data" ]
-    networks: [ redis-cluster-net ]
+    networks: [ redis-cluster-dev ]
     restart: always
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
@@ -181,8 +181,8 @@ services:
           cpus: '0.5'
 
   redis-node6:
-    image: redis:7.2-alpine
-    container_name: redis-node6
+    image: redis:8.6-alpine
+    container_name: redis-node6-dev
     user: "999:999"
     command: >
       redis-server --cluster-enabled yes
@@ -199,151 +199,7 @@ services:
                          --tcp-backlog 511
     ports: [ "7006:6379" ]
     volumes: [ "./data/redis-node6:/data" ]
-    networks: [ redis-cluster-net ]
-    restart: always
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 40s
-    deploy:
-      resources:
-        limits:
-          memory: 2560M
-          cpus: '1.0'
-        reservations:
-          memory: 1024M
-          cpus: '0.5'
-
-  redis-node7:
-    image: redis:7.2-alpine
-    container_name: redis-node7
-    user: "999:999"
-    command: >
-      redis-server --cluster-enabled yes
-                         --cluster-config-file nodes.conf
-                         --cluster-node-timeout 5000
-                         --appendonly yes
-                         --cluster-announce-ip redis-node7
-                         --cluster-announce-port 6379
-                         --cluster-announce-bus-port 16379
-                         --maxmemory 2gb
-                         --maxmemory-policy allkeys-lru
-                         --save 900 1 60 100 30 10000
-                         --tcp-keepalive 300
-                         --tcp-backlog 511
-    ports: [ "7007:6379" ]
-    volumes: [ "./data/redis-node7:/data" ]
-    networks: [ redis-cluster-net ]
-    restart: always
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 40s
-    deploy:
-      resources:
-        limits:
-          memory: 2560M
-          cpus: '1.0'
-        reservations:
-          memory: 1024M
-          cpus: '0.5'
-
-  redis-node8:
-    image: redis:7.2-alpine
-    container_name: redis-node8
-    user: "999:999"
-    command: >
-      redis-server --cluster-enabled yes
-                         --cluster-config-file nodes.conf
-                         --cluster-node-timeout 5000
-                         --appendonly yes
-                         --cluster-announce-ip redis-node8
-                         --cluster-announce-port 6379
-                         --cluster-announce-bus-port 16379
-                         --maxmemory 2gb
-                         --maxmemory-policy allkeys-lru
-                         --save 900 1 60 100 30 10000
-                         --tcp-keepalive 300
-                         --tcp-backlog 511
-    ports: [ "7008:6379" ]
-    volumes: [ "./data/redis-node8:/data" ]
-    networks: [ redis-cluster-net ]
-    restart: always
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 40s
-    deploy:
-      resources:
-        limits:
-          memory: 2560M
-          cpus: '1.0'
-        reservations:
-          memory: 1024M
-          cpus: '0.5'
-
-  redis-node9:
-    image: redis:7.2-alpine
-    container_name: redis-node9
-    user: "999:999"
-    command: >
-      redis-server --cluster-enabled yes
-                         --cluster-config-file nodes.conf
-                         --cluster-node-timeout 5000
-                         --appendonly yes
-                         --cluster-announce-ip redis-node9
-                         --cluster-announce-port 6379
-                         --cluster-announce-bus-port 16379
-                         --maxmemory 2gb
-                         --maxmemory-policy allkeys-lru
-                         --save 900 1 60 100 30 10000
-                         --tcp-keepalive 300
-                         --tcp-backlog 511
-    ports: [ "7009:6379" ]
-    volumes: [ "./data/redis-node9:/data" ]
-    networks: [ redis-cluster-net ]
-    restart: always
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 40s
-    deploy:
-      resources:
-        limits:
-          memory: 2560M
-          cpus: '1.0'
-        reservations:
-          memory: 1024M
-          cpus: '0.5'
-
-  redis-node10:
-    image: redis:7.2-alpine
-    container_name: redis-node10
-    user: "999:999"
-    command: >
-      redis-server --cluster-enabled yes
-                         --cluster-config-file nodes.conf
-                         --cluster-node-timeout 5000
-                         --appendonly yes
-                         --cluster-announce-ip redis-node10
-                         --cluster-announce-port 6379
-                         --cluster-announce-bus-port 16379
-                         --maxmemory 2gb
-                         --maxmemory-policy allkeys-lru
-                         --save 900 1 60 100 30 10000
-                         --tcp-keepalive 300
-                         --tcp-backlog 511
-    ports: [ "7010:6379" ]
-    volumes: [ "./data/redis-node10:/data" ]
-    networks: [ redis-cluster-net ]
+    networks: [ redis-cluster-dev ]
     restart: always
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
@@ -361,6 +217,6 @@ services:
           cpus: '0.5'
 
 networks:
-  redis-cluster-net:
-    name: redis-cluster-net
+  redis-cluster-dev:
+    name: redis-cluster-dev
     external: true

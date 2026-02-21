@@ -3,10 +3,11 @@
 
 # Переменные
 COMPOSE_FILE = docker-compose.yml
-NETWORK_NAME = redis-cluster-net
+PROJECT_NAME = redis-dev
+NETWORK_NAME = redis-cluster-dev
 DATA_DIR = ./data
-REDIS_IMAGE = redis:7.2-alpine
-CLUSTER_NODES = redis-node1:6379 redis-node2:6379 redis-node3:6379 redis-node4:6379 redis-node5:6379 redis-node6:6379 redis-node7:6379 redis-node8:6379 redis-node9:6379 redis-node10:6379
+REDIS_IMAGE = redis:8.6-alpine
+CLUSTER_NODES = redis-node1:6379 redis-node2:6379 redis-node3:6379 redis-node4:6379 redis-node5:6379 redis-node6:6379
 
 # Цели по умолчанию
 .PHONY: help up down restart status logs clean reset create-cluster check-cluster info reshard add-node remove-node backup restore test
@@ -51,7 +52,7 @@ up:
 	@echo "Создание сети $(NETWORK_NAME)..."
 	@docker network create --driver bridge $(NETWORK_NAME) 2>/dev/null || echo "Сеть уже существует"
 	@echo "Запуск Redis контейнеров..."
-	@docker compose -f $(COMPOSE_FILE) up -d
+	@docker compose -p $(PROJECT_NAME) -f $(COMPOSE_FILE) up -d
 	@echo "Контейнеры запущены!"
 	@if [ ! -f ./data/redis-node1/nodes.conf ]; then \
 		echo "ПЕРВЫЙ ЗАПУСК: Выполните 'make create-cluster' для инициализации кластера"; \
@@ -62,7 +63,7 @@ up:
 # Остановка контейнеров
 down:
 	@echo "Остановка Redis контейнеров..."
-	@docker compose -f $(COMPOSE_FILE) down
+	@docker compose -p $(PROJECT_NAME) -f $(COMPOSE_FILE) down
 	@echo "Удаление сети $(NETWORK_NAME)..."
 	@docker network rm $(NETWORK_NAME) 2>/dev/null || echo "Сеть уже удалена"
 	@echo "Контейнеры остановлены, сеть удалена!"
@@ -73,12 +74,12 @@ restart: down up
 # Статус контейнеров
 status:
 	@echo "Статус Redis контейнеров:"
-	@docker compose -f $(COMPOSE_FILE) ps
+	@docker compose -p $(PROJECT_NAME) -f $(COMPOSE_FILE) ps
 
 # Логи
 logs:
 	@echo "Логи Redis контейнеров:"
-	@docker compose -f $(COMPOSE_FILE) logs -f --tail=100
+	@docker compose -p $(PROJECT_NAME) -f $(COMPOSE_FILE) logs -f --tail=100
 
 # Создание кластера (из скрипта create-cluster.sh)
 create-cluster:
@@ -121,7 +122,7 @@ reset:
 # Принудительный сброс без подтверждения
 reset-force:
 	@echo "Остановка Redis контейнеров..."
-	@docker compose -f $(COMPOSE_FILE) down -v
+	@docker compose -p $(PROJECT_NAME) -f $(COMPOSE_FILE) down -v
 	@echo "Удаление сети..."
 	@docker network rm $(NETWORK_NAME) 2>/dev/null || true
 	@echo "Удаление данных Redis..."
@@ -208,7 +209,7 @@ network-info:
 clean:
 	@echo "Очистка данных и Docker volumes..."
 	@make down
-	@docker compose -f $(COMPOSE_FILE) down -v --remove-orphans
+	@docker compose -p $(PROJECT_NAME) -f $(COMPOSE_FILE) down -v --remove-orphans
 	@rm -rf $(DATA_DIR)
 	@docker system prune -f --volumes
 	@echo "Очистка завершена!"
