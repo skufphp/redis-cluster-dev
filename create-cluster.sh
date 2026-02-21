@@ -2,7 +2,7 @@
 
 echo "Creating Redis cluster..."
 
-yes yes | docker run -i --rm --net redis-cluster-net redis:7.2-alpine \
+yes yes | docker run -i --rm --net redis-cluster-dev redis:8.6-alpine \
   redis-cli --cluster create \
   redis-node1:6379 \
   redis-node2:6379 \

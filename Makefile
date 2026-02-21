@@ -3,7 +3,7 @@
 
 # Переменные
 COMPOSE_FILE = docker-compose.yml
-PROJECT_NAME = redis-dev
+PROJECT_NAME = redis-cluster-dev
 NETWORK_NAME = redis-cluster-dev
 DATA_DIR = ./data
 REDIS_IMAGE = redis:8.6-alpine
@@ -45,7 +45,7 @@ help:
 	@echo "  make network-info    - Показать информацию о сети"
 	@echo ""
 	@echo "💡 Подключение приложений к сети:"
-	@echo "  docker run --network redis-cluster-net your-app"
+	@echo "  docker run --network redis-cluster-dev your-app"
 
 # Запуск контейнеров
 up:
