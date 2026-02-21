@@ -46,26 +46,6 @@ make up
 make create-cluster
 ```
 
-### 📋 Альтернативный способ (через Docker Compose):
-
-1️⃣ Создай внешнюю сеть:
-
-```bash
-make network-create
-```
-
-2️⃣ Запусти контейнеры:
-
-```bash
-docker compose up -d
-```
-
-3️⃣ Инициализируй кластер:
-
-```bash
-bash create-cluster.sh
-```
-
 ---
 
 ## 🛠 Управление кластером
@@ -113,12 +93,10 @@ networks:
     external: true  # 🆕 Внешняя сеть
 ```
 
-### 🔗 Управление сетью:
+### 🔗 Информация о сети:
 
 ```bash
-make network-create  # Создать внешнюю сеть
 make network-info    # Информация о сети
-make network-remove  # Удалить сеть (с подтверждением)
 ```
 
 ### 📱 Подключение приложений:
@@ -131,7 +109,7 @@ docker run --network redis-cluster-dev your-app
 
 Строка подключения:
 ```ini
-tcp://redis-node1:6379?prefix=my_project:
+tcp://redis-node1-dev:6379?prefix=my_project:
 ```
 
 ---
@@ -144,7 +122,7 @@ tcp://redis-node1:6379?prefix=my_project:
 2. Используй Makefile:
 
    ```bash
-   make add-node NODE=redis-node7:6379
+   make add-node NODE=redis-node7-dev:6379
    ```
 
 ### 🔄 Перераспределение слотов:
@@ -242,7 +220,7 @@ Runtime-данные (`dump.rdb`, `appendonly.aof`, `nodes.conf`) — **игно
 
 **🌐 Как подключить внешнее приложение?**
 ```bash
-docker run --network redis-cluster-net your-app
+docker run --network redis-cluster-dev your-app
 ```
 
 **📋 Как посмотреть все команды?**

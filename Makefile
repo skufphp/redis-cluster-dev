@@ -7,7 +7,7 @@ PROJECT_NAME = redis-cluster-dev
 NETWORK_NAME = redis-cluster-dev
 DATA_DIR = ./data
 REDIS_IMAGE = redis:8.6-alpine
-CLUSTER_NODES = redis-node1:6379 redis-node2:6379 redis-node3:6379 redis-node4:6379 redis-node5:6379 redis-node6:6379
+CLUSTER_NODES = redis-node1-dev:6379 redis-node2-dev:6379 redis-node3-dev:6379 redis-node4-dev:6379 redis-node5-dev:6379 redis-node6-dev:6379
 
 # Цели по умолчанию
 .PHONY: help up down restart status logs clean reset create-cluster check-cluster info reshard add-node remove-node backup restore test
@@ -94,19 +94,19 @@ create-cluster:
 check-cluster:
 	@echo "Проверка состояния кластера..."
 	@docker run -it --rm --net $(NETWORK_NAME) $(REDIS_IMAGE) \
-		redis-cli --cluster check redis-node1:6379
+		redis-cli --cluster check redis-node1-dev:6379
 
 # Информация о кластере
 info:
 	@echo "Информация о кластере:"
 	@docker run -it --rm --net $(NETWORK_NAME) $(REDIS_IMAGE) \
-		redis-cli --cluster info redis-node1:6379
+		redis-cli --cluster info redis-node1-dev:6379
 
 # Перераспределение слотов
 reshard:
 	@echo "♻️ Перераспределение слотов кластера..."
 	@docker run -it --rm --net $(NETWORK_NAME) $(REDIS_IMAGE) \
-		redis-cli --cluster reshard redis-node1:6379
+		redis-cli --cluster reshard redis-node1-dev:6379
 
 # Сброс кластера (из скрипта reset-cluster.sh)
 reset:
@@ -139,30 +139,30 @@ reset-force:
 test:
 	@echo "Тестирование подключения к кластеру..."
 	@docker run -it --rm --net $(NETWORK_NAME) $(REDIS_IMAGE) \
-		redis-cli -c -h redis-node1 -p 6379 ping
+		redis-cli -c -h redis-node1-dev -p 6379 ping
 	@echo "Тест успешен!"
 
 # Подключение к CLI
 cli:
 	@echo "Подключение к Redis CLI..."
 	@docker run -it --rm --net $(NETWORK_NAME) $(REDIS_IMAGE) \
-		redis-cli -c -h redis-node1 -p 6379
+		redis-cli -c -h redis-node1-dev -p 6379
 
 # Мониторинг команд
 monitor:
 	@echo "Мониторинг Redis команд..."
 	@docker run -it --rm --net $(NETWORK_NAME) $(REDIS_IMAGE) \
-		redis-cli -h redis-node1 -p 6379 monitor
+		redis-cli -h redis-node1-dev -p 6379 monitor
 
 # Добавление новой ноды
 add-node:
 	@if [ -z "$(NODE)" ]; then \
-		echo "Укажите NODE=redis-nodeX:6379"; \
+		echo "Укажите NODE=redis-node7-prod	§§§§	:6379"; \
 		exit 1; \
 	fi
 	@echo "➕ Добавление ноды $(NODE) в кластер..."
 	@docker run -it --rm --net $(NETWORK_NAME) $(REDIS_IMAGE) \
-		redis-cli --cluster add-node $(NODE) redis-node1:6379
+		redis-cli --cluster add-node $(NODE) redis-node1-dev:6379
 
 # Удаление ноды
 remove-node:
@@ -173,7 +173,7 @@ remove-node:
 	fi
 	@echo "➖ Удаление ноды $(NODE_ID) из кластера..."
 	@docker run -it --rm --net $(NETWORK_NAME) $(REDIS_IMAGE) \
-		redis-cli --cluster del-node redis-node1:6379 $(NODE_ID)
+		redis-cli --cluster del-node redis-node1-dev:6379 $(NODE_ID)
 
 # Создание бэкапа
 backup:

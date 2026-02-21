@@ -9,13 +9,13 @@ if [[ "$confirm" != "yes" ]]; then
 fi
 
 echo "Stopping Redis containers..."
-docker compose down -v
+docker compose -p redis-cluster-dev down -v
 
 echo "Removing Redis data..."
 rm -rf ./data/redis-node*
 
 echo "Starting Redis containers..."
-docker compose up -d
+docker compose -p redis-cluster-dev up -d
 
 echo "Waiting 5s for nodes to initialize..."
 sleep 5
